@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import classification_report, roc_auc_score
+from sklearn.preprocessing import StandardScaler
 
 # read in data
 df = pd.read_csv("video games sales.csv")
@@ -28,16 +29,21 @@ y = df_encoded['Hit']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
 
 # train the logistic regression model
-lr = LogisticRegression(max_iter=1000)
-lr.fit(X_train, y_train)
+# scale the data
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
 
-# train the decision tree model
+# define and train logistic regression
+lr = LogisticRegression(max_iter=1000, class_weight='balanced')
+lr.fit(X_train_scaled, y_train)
+
+# train decision tree
 tree = DecisionTreeClassifier(max_depth=5, random_state=42)
 tree.fit(X_train, y_train)
 
-
-# evaluate models using accuracy, precision, recall, F1, and ROC-AUC
-y_pred_lr = lr.predict(X_test)
+# evaluate models
+y_pred_lr = lr.predict(X_test_scaled)
 y_pred_tree = tree.predict(X_test)
 
 print("Logistic Regression Report:")
@@ -46,8 +52,5 @@ print(classification_report(y_test, y_pred_lr))
 print("Decision Tree Report:")
 print(classification_report(y_test, y_pred_tree))
 
-print("Logistic Regression ROC-AUC:", roc_auc_score(y_test, lr.predict_proba(X_test)[:, 1]))
+print("Logistic Regression ROC-AUC:", roc_auc_score(y_test, lr.predict_proba(X_test_scaled)[:, 1]))
 print("Decision Tree ROC-AUC:", roc_auc_score(y_test, tree.predict_proba(X_test)[:, 1]))
-
-
-# features are platform, genre, publisher, and year
