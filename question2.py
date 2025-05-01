@@ -39,7 +39,12 @@ lr = LogisticRegression(max_iter=1000, class_weight='balanced')
 lr.fit(X_train_scaled, y_train)
 
 # train decision tree
-tree = DecisionTreeClassifier(max_depth=5, random_state=42)
+tree = DecisionTreeClassifier(
+    max_depth=15,
+    class_weight='balanced',
+    min_samples_split=10,
+    random_state=42
+)
 tree.fit(X_train, y_train)
 
 # evaluate models
