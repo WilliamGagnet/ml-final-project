@@ -1,1 +1,1 @@
-COMP375: Machine Learning final project. Uses logistic regression and decision trees on video game platform, genre, publisher, and year to predict whether a game will be a hit or not (>= 1 million global sales)
+COMP375: Machine Learning final project. Uses logistic regression and decision trees on video game platform, genre, publisher, and year to predict whether a game will be a hit or not (>= 1 million global sales).
