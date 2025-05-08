@@ -131,4 +131,5 @@ If a model has:
     F1 = 0.44
 That means: The model caught 80% of real hits (good recall), but only 30% of its hit predictions were actually correct (low precision). The F1 score balances the two.
 
+I used ROC-AUC because it shows how well the model separates the classes, regardless of the classification threshold.
 '''
